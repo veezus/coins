@@ -16,10 +16,13 @@ class Coins
 
   def make_change
     remaining_change = cents
-    denominations.each_with_object({}) do |(denomination, amount_of_denomination), result|
-      change = change_in_denomination remaining_change, amount_of_denomination
-      result[denomination] = change[:number_of_denomination]
-      remaining_change = change[:remaining_change]
+    {}.tap do |result|
+      denominations.each do |denomination, amount_of_denomination|
+         change = change_in_denomination remaining_change,
+           amount_of_denomination
+         result[denomination] = change[:number_of_denomination]
+         remaining_change = change[:remaining_change]
+      end
     end
   end
 
